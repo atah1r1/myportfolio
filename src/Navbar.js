@@ -29,7 +29,7 @@ function Navbar({fullname}) {
               </svg>
             </button>
           </div>
-          <div className={"w-full flex-grow lg:flex lg:items-center lg:w-auto mt-2 lg:mt-0 sm:text-center sm:bg-opacity-50 bg-white lg:bg-transparent p-4 lg:p-0 z-20" + (navbarOpen ? " bg-gradient-to-r navbar-gradient to-navbar-end" : " hidden")} id="nav-content">
+          <div className={"w-full flex-grow lg:flex lg:items-center lg:w-auto mt-2 lg:mt-0 sm:text-center sm:bg-opacity-50 bg-black lg:bg-transparent p-4 lg:p-0 z-20" + (navbarOpen ? " bg-gradient-to-r navbar-gradient to-navbar-end" : " hidden")} id="nav-content">
             <ul className="list-reset lg:flex justify-end flex-1 items-center">
               <li className="mr-3">
               <a className="inline-block text-white no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#education">Education</a>
