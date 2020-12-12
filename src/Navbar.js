@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import "./assets/navbar.css";
 
 function Navbar({fullname}) {
   const [navbar, setNavbar] = useState(true);
