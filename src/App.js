@@ -14,7 +14,7 @@ function App() {
   const [project, setProject] = useState([]);
   const getData = async () => {
     try {
-  const userInfo = await axios.get("http://localhost:8000/api/")
+  const userInfo = await axios.get("/api/")
       
         setInfo(userInfo.data.info);
         setEducation(userInfo.data.educations);
