@@ -1,0 +1,7 @@
+.to-navbar-end {
+	--gradient-to-color: #daae51;
+}
+.navbar-gradient {
+	--gradient-from-color: #d53369;
+	--gradient-color-stops: var(--gradient-from-color), var(--gradient-to-color, rgba(231, 70, 148, 0));
+}
