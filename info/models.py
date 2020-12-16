@@ -2,7 +2,16 @@ from django.db import models
 import re
 from ckeditor.fields import RichTextField
 
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from rest_framework.authtoken.models import Token
+
+
+
 class Information(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=50, blank=True, null=True)
     avatar = models.ImageField(upload_to="avatar/", blank=True, null=True)
     mini_about = models.TextField(blank=True, null=True)
@@ -20,7 +29,17 @@ class Information(models.Model):
     instagram = models.URLField(blank=True, null=True)
 
     def __str__(self):
-        return self.full_name
+        return self.full_name if self.full_name else 'Profile'
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Information.objects.create(user=instance)
+            Token.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.information.save()
 
 
 class Competence(models.Model):
