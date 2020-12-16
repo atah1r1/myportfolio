@@ -7,6 +7,8 @@ import Projects from './Projects';
 import Footer from './Footer';
 import Copyright from './Copyright';
 import axios from 'axios';
+import {Router, Route} from 'react-router';
+import Dashboard from './Dashboard';
 function App() {
   const [info, setInfo] = useState({});
   const [education, setEducation] = useState([]);
@@ -30,13 +32,16 @@ function App() {
   }, [])
   return (
     <>
-      <Navbar fullname ={info.full_name} />
-      <Body github={info.github} twitter={info.twitter} linkedin={info.linkedin} about={info.mini_about} fullname ={info.full_name}/>
-      <Education education={{...education}} />
-      <Competences competence={{...competence}} />
-      <Projects project={{...project}}/>
-      <Footer info={info}/>
-      <Copyright />
+      <Route path="/dashboard" component={Dashboard}/>
+      <Route exact path="/" >
+          <Navbar fullname ={info.full_name} />
+          <Body github={info.github} twitter={info.twitter} linkedin={info.linkedin} about={info.mini_about} fullname ={info.full_name}/>
+          <Education education={{...education}} />
+          <Competences competence={{...competence}} />
+          <Projects project={{...project}}/>
+          <Footer info={info}/>
+          <Copyright />
+      </Route>
     </>
   )
 }
