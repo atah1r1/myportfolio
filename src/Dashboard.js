@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
 var bodyFormData = new FormData();
@@ -11,13 +12,15 @@ function Dashboard () {
     bodyFormData.set("username", user.username);
     bodyFormData.set("password", user.password);
     axios({
-      url: 'http://10.12.10.6:8000/api/login/',
+      url: '/api/login/',
       method: "post",
       data: bodyFormData
     }
       ).then(response => {
-        if (response.status === 200)
-            console.log('you are logged in')
+        if (response.status === 200){
+            location.href = '/admin';
+            console.log("logged")
+        }
       }).catch(error => {
           setErrorMessage("Username or password incorrect !")
       });
