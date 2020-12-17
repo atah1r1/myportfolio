@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import './navbar.css';
+import './navbar.scss';
 
 function Navbar({fullname}) {
   const [navbar, setNavbar] = useState(true);
