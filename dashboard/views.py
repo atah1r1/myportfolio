@@ -5,21 +5,27 @@ from django.contrib.auth import logout as logout_user
 from rest_framework import views, generics, response, permissions, authentication
 
 
-
+class CsrfExemptSessionAuthentication(authentication.SessionAuthentication):
+    def enforce_csrf(self, request):
+        return
 
 
 class LoginView(views.APIView):
-    permission_classes = [authentication.SessionAuthentication, authentication.BasicAuthentication]
-    authentication_classes = [permissions.IsAuthenticated]
-
+    permission_classes = [permissions.AllowAny]
+    # authentication_classes = [CsrfExemptSessionAuthentication]
     def post(self, request):
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+
+        if not username or not password:
+            return response.Response({'message': 'Please enter both username and password'}, status=401)
 
         user = authenticate(
-            username=request.POST.get('username'), 
-            password=request.POST.get('password')
+            username = username,
+            password = password
             )
         if user:
             login_user(request, user)
-            return response.Response({'code': 200})
+            return response.Response(status=200)
 
-        return response.Response({'code': 401, 'message': 'Invalid Username or Password'})
+        return response.Response({'message': 'Invalid Username or Password'}, status=401)
