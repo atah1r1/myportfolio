@@ -10,6 +10,7 @@
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "node-sass": "^4.14.1",
     "npm-watch": "^0.7.0",
     "postcss-cli": "^8.3.0",
     "react": "^17.0.1",
