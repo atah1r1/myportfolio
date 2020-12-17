@@ -11,11 +11,11 @@ class CsrfExemptSessionAuthentication(authentication.SessionAuthentication):
 
 class LoginView(views.APIView):
     permission_classes = [permissions.AllowAny]
-    # authentication_classes = [CsrfExemptSessionAuthentication]
+    authentication_classes = [CsrfExemptSessionAuthentication]
     def post(self, request):
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
-
+        
         if not username or not password:
             return Response({'message': 'Please enter both username and password'}, status=401)
 
@@ -28,3 +28,10 @@ class LoginView(views.APIView):
             return Response(status=200)
 
         return Response({'message': 'Invalid Username or Password'}, status=401)
+
+
+class AuthenticateCheck(views.APIView):
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = [CsrfExemptSessionAuthentication]
+    def get(self, request):
+            return Response({'authenticate': request.user.is_authenticated }, status=200)
