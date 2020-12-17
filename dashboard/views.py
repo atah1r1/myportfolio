@@ -5,6 +5,8 @@ from django.contrib.auth import logout as logout_user
 from rest_framework import views, generics, permissions, authentication
 from rest_framework.response import Response
 
+from .serializers import ProfileSerializer
+
 class CsrfExemptSessionAuthentication(authentication.SessionAuthentication):
     def enforce_csrf(self, request):
         return
@@ -33,3 +35,12 @@ class LoginView(views.APIView):
             return Response({'authenticate': request.user.is_authenticated }, status=200)
 
     
+class ProfileView(views.APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [CsrfExemptSessionAuthentication]
+
+    def get(self, request):
+        serializer = ProfileSerializer()
+        # if serializer.is_valid():
+        #     serializer.save()
+        return Response(serializer)
