@@ -29,9 +29,7 @@ class LoginView(views.APIView):
 
         return Response({'message': 'Invalid Username or Password'}, status=401)
 
-
-class AuthenticateCheck(views.APIView):
-    permission_classes = [permissions.AllowAny]
-    authentication_classes = [CsrfExemptSessionAuthentication]
     def get(self, request):
             return Response({'authenticate': request.user.is_authenticated }, status=200)
+
+    
