@@ -2,6 +2,8 @@ from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
 from django.contrib.auth import logout as logout_user
+
+
 from rest_framework import views, generics, permissions, authentication
 from rest_framework.response import Response
 
@@ -11,6 +13,8 @@ class CsrfExemptSessionAuthentication(authentication.SessionAuthentication):
     def enforce_csrf(self, request):
         return
 
+
+# we use this class to login and check the user if she/he logged in.
 class LoginView(views.APIView):
     permission_classes = [permissions.AllowAny]
     authentication_classes = [CsrfExemptSessionAuthentication]
@@ -27,14 +31,24 @@ class LoginView(views.APIView):
             )
         if user:
             login_user(request, user)
-            return Response(status=200)
+            return Response({'message': 'Logged in Successfully'}, status=200)
 
         return Response({'message': 'Invalid Username or Password'}, status=401)
 
     def get(self, request):
             return Response({'authenticate': request.user.is_authenticated }, status=200)
 
+
+# this is the logout class
+class LogoutView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = [CsrfExemptSessionAuthentication]
+
+    def post(self, request):
+        logout_user(request)
+        return Response({'message': 'Logged out Successfully'}, status=200)
     
+
 class ProfileView(views.APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     authentication_classes = [CsrfExemptSessionAuthentication]
