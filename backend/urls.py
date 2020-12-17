@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import home, api
+from .views import home, login
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -10,8 +10,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('', home, name='home'),
-    path('api/', api, name='api'),
+    path('login', login, name='login'),
 
+    # path('api/', api, name='api'),
     path('api/', include('dashboard.urls')),
 
     path('admin/', admin.site.urls),
