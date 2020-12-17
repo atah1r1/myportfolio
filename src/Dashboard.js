@@ -18,7 +18,7 @@ function Dashboard () {
     }
       ).then(response => {
         if (response.status === 200){
-            location.href = '/admin';
+            window.location.href = '/admin';
             console.log("logged")
         }
       }).catch(error => {
