@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,6 +7,15 @@ var bodyFormData = new FormData();
 function Dashboard () {
   const [user, setUser] = useState({})
   const [errormessage, setErrorMessage] = useState("");
+  useEffect(() => {
+    axios("/api/login/").then(
+        response => {
+            if (response.data.authenticate){
+                window.location.href = '/admin';
+            }
+        }
+    )
+  }, [])
   const handleClick = (e) => {
     e.preventDefault();
     bodyFormData.set("username", user.username);
@@ -32,6 +41,7 @@ function Dashboard () {
       [e.target.name]: value
     })
   }
+
     return (
         <>
         <div className="flex items-center justify-center mt-96">

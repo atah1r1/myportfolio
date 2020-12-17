@@ -32,7 +32,7 @@ function App() {
   }, [])
   return (
     <>
-      <Route path="/login" component={Dashboard}/>
+      <Route path="/login/" component={Dashboard}/>
       <Route exact path="/" >
           <Navbar fullname ={info.full_name} />
           <Body github={info.github} twitter={info.twitter} linkedin={info.linkedin} about={info.mini_about} fullname ={info.full_name}/>

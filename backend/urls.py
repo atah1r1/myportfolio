@@ -10,7 +10,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', home, name='home'),
-    path('login', login, name='login'),
+    path('login/', login, name='login'),
 
     # path('api/', api, name='api'),
     path('api/', include('dashboard.urls')),
