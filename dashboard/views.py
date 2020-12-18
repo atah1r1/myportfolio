@@ -3,11 +3,12 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
 from django.contrib.auth import logout as logout_user
 
-
 from rest_framework import views, generics, permissions, authentication
 from rest_framework.response import Response
+from rest_framework import status
 
-from .serializers import ProfileSerializer
+from info.models import Information, Project
+from .serializers import ProfileSerializer, ProjectSerializer
 
 class CsrfExemptSessionAuthentication(authentication.SessionAuthentication):
     def enforce_csrf(self, request):
@@ -47,14 +48,62 @@ class LogoutView(views.APIView):
     def post(self, request):
         logout_user(request)
         return Response({'message': 'Logged out Successfully'}, status=200)
-    
+
 
 class ProfileView(views.APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     authentication_classes = [CsrfExemptSessionAuthentication]
 
     def get(self, request):
-        serializer = ProfileSerializer()
-        # if serializer.is_valid():
-        #     serializer.save()
-        return Response(serializer)
+        profile = Information.objects.get(pk=1)
+        profile = ProfileSerializer(profile)
+        return Response(profile.data)
+    
+    def put(self, request):
+        profile = Information.objects.get(user=request.user)
+        serializer = ProfileSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProjectView(views.APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [CsrfExemptSessionAuthentication]
+
+    def get(self, request):
+        projects = Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+
+class OneProjectView(views.APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [CsrfExemptSessionAuthentication]
+
+    def get(self, request, id):
+        try:
+            project = Project.objects.get(pk=int(id))
+        except:
+            return Response({'message': "Project matching query does not exist."}, status.HTTP_404_NOT_FOUND)
+        serializer = ProjectSerializer(project)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        try:
+            project = Project.objects.get(pk=int(id))
+        except:
+            return Response({'message': "Project matching query does not exist."}, status.HTTP_404_NOT_FOUND)
+        serializer = ProjectSerializer(instance=project, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)

@@ -1,11 +1,11 @@
 
 from django.contrib import admin
 from django.urls import path, include
-
-from .views import ReactPages
-
 from django.conf.urls.static import static
 from django.conf import settings
+
+
+from .views import ReactPages
 
 
 urlpatterns = [
@@ -13,7 +13,6 @@ urlpatterns = [
     path('login/', ReactPages, name='login'),
     path('dashboard/', ReactPages, name='dashboard'),
 
-    # path('api/', api, name='api'),
     path('api/', include('dashboard.urls')),
 
     path('admin/', admin.site.urls),
