@@ -6,9 +6,7 @@ from django.http import JsonResponse
 from info.models import *
 
 
-home = never_cache(TemplateView.as_view(template_name='index.html'))
-login = never_cache(TemplateView.as_view(template_name='index.html'))
-dashboard = never_cache(TemplateView.as_view(template_name='index.html'))
+ReactPages = never_cache(TemplateView.as_view(template_name='index.html'))
 
 
 

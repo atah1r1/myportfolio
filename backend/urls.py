@@ -2,16 +2,16 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import home, login, dashboard
+from .views import ReactPages
 
 from django.conf.urls.static import static
 from django.conf import settings
 
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('login/', login, name='login'),
-    path('dashboard/', dashboard, name='dashboard'),
+    path('', ReactPages, name='home'),
+    path('login/', ReactPages, name='login'),
+    path('dashboard/', ReactPages, name='dashboard'),
 
     # path('api/', api, name='api'),
     path('api/', include('dashboard.urls')),
