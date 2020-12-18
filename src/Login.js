@@ -27,11 +27,12 @@ function Login () {
       ).then(response => {
         if (response.status === 200){
             window.location.href = '/admin';
-            console.log("logged")
         }
       }).catch(error => {
-          setErrorMessage("Username or password incorrect !")
-      });
+        if (error.response.status === 401) {
+          setErrorMessage(error.response.data.message)
+         }
+    });
   }
   const handleChange = (e) => {
     const value = e.target.value;

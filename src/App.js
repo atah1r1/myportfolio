@@ -15,22 +15,22 @@ function App() {
   const [education, setEducation] = useState([]);
   const [competence, setCompetence] = useState([]);
   const [project, setProject] = useState([]);
-  const getData = async () => {
-    try {
-  const userInfo = await axios.get("/api/")
+  // const getData = async () => {
+  //   try {
+  // const userInfo = await axios.get("/api/")
       
-        setInfo(userInfo.data.info);
-        setEducation(userInfo.data.educations);
-        setCompetence(userInfo.data.competences);
-        setProject(userInfo.data.projects);
+  //       setInfo(userInfo.data.info);
+  //       setEducation(userInfo.data.educations);
+  //       setCompetence(userInfo.data.competences);
+  //       setProject(userInfo.data.projects);
     
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-    useEffect(()=>{
-      getData()
-  }, [])
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // };
+  //   useEffect(()=>{
+  //     getData()
+  // }, [])
   return (
     <>
       <Route path="/login/" component={Login}/>
