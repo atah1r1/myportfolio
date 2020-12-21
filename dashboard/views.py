@@ -18,6 +18,8 @@ from .serializers import (
     ProfileSerializer, 
     ProjectSerializer, 
     EducationSerializer,
+    ExperienceSerializer,
+    CompetenceSerializer
     )
 
 class CsrfExemptSessionAuthentication(authentication.SessionAuthentication):
@@ -162,3 +164,39 @@ class EducationView(views.APIView):
             return Response({'message': "Education Deleted Successfully"}, status.HTTP_200_OK)
         except:
             return Response({'message': "Education matching query does not exist."}, status.HTTP_404_NOT_FOUND)
+
+
+class CompetenceView(views.APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [CsrfExemptSessionAuthentication]
+
+    def get(self, request):
+        competences = Competence.objects.all()
+        serializer = CompetenceSerializer(competences, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = CompetenceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def put(self, request, id):
+        try:
+            competence = Competence.objects.get(pk=int(id))
+        except:
+            return Response({'message': "Competence matching query does not exist."}, status.HTTP_404_NOT_FOUND)
+        serializer = CompetenceSerializer(instance=competence, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def delete(self, request, id):
+        try:
+            competence = Competence.objects.get(pk=int(id))
+            competence.delete()
+            return Response({'message': "Competence Deleted Successfully"}, status.HTTP_200_OK)
+        except:
+            return Response({'message': "Competence matching query does not exist."}, status.HTTP_404_NOT_FOUND)

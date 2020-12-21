@@ -7,6 +7,7 @@ from .views import (
     ProjectView, 
     OneProjectView,
     EducationView,
+    CompetenceView
     )
 
 app_name = 'dashboard'
@@ -21,5 +22,8 @@ urlpatterns = [
 
     path('education/', EducationView.as_view(), name='education'),
     path('education/<int:id>/', EducationView.as_view(), name='one_education'),
+
+    path('competences/', CompetenceView.as_view(), name='competences'),
+    path('competences/<int:id>/', CompetenceView.as_view(), name='one_competence'),
 
 ]

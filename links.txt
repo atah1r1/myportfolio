@@ -16,3 +16,6 @@ API
 
 /api/education/          [POST / GET]
 /api/education/<id>/     [PUT / DELETE]
+
+/api/competences/          [POST / GET]
+/api/competences/<id>/     [PUT / DELETE]
