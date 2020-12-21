@@ -19,3 +19,6 @@ API
 
 /api/competences/          [POST / GET]
 /api/competences/<id>/     [PUT / DELETE]
+
+/api/experiences/          [POST / GET]
+/api/experiences/<id>/     [PUT / DELETE]
