@@ -6,6 +6,13 @@
 API
 ---------------------------------------------------------------------
 
+/api/login/             [POST]
+/api/logout/            [POST]
 
-/api/login
-/api/logout
+/api/profile/           [POST / GET]
+
+/api/projects/          [POST / GET]
+/api/projects/<id>/     [PUT / GET / DELETE]
+
+/api/education/          [POST / GET]
+/api/education/<id>/     [PUT / DELETE]

@@ -7,8 +7,18 @@ from rest_framework import views, generics, permissions, authentication
 from rest_framework.response import Response
 from rest_framework import status
 
-from info.models import Information, Project
-from .serializers import ProfileSerializer, ProjectSerializer
+from info.models import (
+    Information, 
+    Project, 
+    Education, 
+    Competence, 
+    Experience
+    )
+from .serializers import (
+    ProfileSerializer, 
+    ProjectSerializer, 
+    EducationSerializer,
+    )
 
 class CsrfExemptSessionAuthentication(authentication.SessionAuthentication):
     def enforce_csrf(self, request):
@@ -107,3 +117,48 @@ class OneProjectView(views.APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+    
+    def delete(self, request, id):
+        try:
+            project = Project.objects.get(pk=int(id))
+            project.delete()
+            return Response({'message': "Project Deleted Successfully"}, status.HTTP_200_OK)
+        except:
+            return Response({'message': "Project matching query does not exist."}, status.HTTP_404_NOT_FOUND)
+
+
+class EducationView(views.APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [CsrfExemptSessionAuthentication]
+
+    def get(self, request):
+        educations = Education.objects.all()
+        serializer = EducationSerializer(educations, many=True)
+        return Response(serializer.data)
+
+
+    def post(self, request):
+        serializer = EducationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def put(self, request, id):
+        try:
+            education = Education.objects.get(pk=int(id))
+        except:
+            return Response({'message': "Education matching query does not exist."}, status.HTTP_404_NOT_FOUND)
+        serializer = EducationSerializer(instance=education, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def delete(self, request, id):
+        try:
+            education = Education.objects.get(pk=int(id))
+            education.delete()
+            return Response({'message': "Education Deleted Successfully"}, status.HTTP_200_OK)
+        except:
+            return Response({'message': "Education matching query does not exist."}, status.HTTP_404_NOT_FOUND)
