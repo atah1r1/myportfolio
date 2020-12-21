@@ -2,23 +2,23 @@
 /dashboard/
 
 
----------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
 API
----------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
 
-/api/login/             [POST]
-/api/logout/            [POST]
+/api/login/                     [POST / GET]                    GET ---> for testing is the user logged in or not.
+/api/logout/                    [POST]
 
-/api/profile/           [POST / GET]
+/api/profile/                   [POST / GET]
 
-/api/projects/          [POST / GET]
-/api/projects/<id>/     [PUT / GET / DELETE]
+/api/projects/                  [POST / GET]
+/api/projects/<id>/             [PUT / GET / DELETE]
 
-/api/education/          [POST / GET]
-/api/education/<id>/     [PUT / DELETE]
+/api/education/                 [POST / GET]
+/api/education/<id>/            [PUT / DELETE]
 
-/api/competences/          [POST / GET]
-/api/competences/<id>/     [PUT / DELETE]
+/api/competences/               [POST / GET]
+/api/competences/<id>/          [PUT / DELETE]
 
-/api/experiences/          [POST / GET]
-/api/experiences/<id>/     [PUT / DELETE]
+/api/experiences/               [POST / GET]
+/api/experiences/<id>/          [PUT / DELETE]
