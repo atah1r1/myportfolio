@@ -261,6 +261,9 @@ class MessageView(views.APIView):
         serializer = MessageSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            ###################################################
+            ##  sending the message to the gmail account...  ##
+            ###################################################
             return Response(serializer.data)
         return Response(serializer.errors)
     
