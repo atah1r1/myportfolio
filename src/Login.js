@@ -10,7 +10,7 @@ function Login () {
     axios("/api/login/").then(
         response => {
             if (response.data.authenticate){
-                window.location.href = '/admin';
+                window.location.href = '/dashboard';
             }
         }
     )
@@ -26,7 +26,7 @@ function Login () {
     }
       ).then(response => {
         if (response.status === 200){
-            window.location.href = '/admin';
+            window.location.href = '/dashboard';
         }
       }).catch(error => {
         if (error.response.status === 401) {
