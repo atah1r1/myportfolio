@@ -4,7 +4,8 @@ from info.models import (
     Project, 
     Education,
     Competence, 
-    Experience
+    Experience,
+    Message
     )
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -36,3 +37,9 @@ class CompetenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competence
         fields = '__all__'
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        exclude = ['send_time']

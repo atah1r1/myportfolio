@@ -12,14 +12,16 @@ from info.models import (
     Project, 
     Education, 
     Competence, 
-    Experience
+    Experience, 
+    Message
     )
 from .serializers import (
     ProfileSerializer, 
     ProjectSerializer, 
     EducationSerializer,
     ExperienceSerializer,
-    CompetenceSerializer
+    CompetenceSerializer,
+    MessageSerializer
     )
 
 class CsrfExemptSessionAuthentication(authentication.SessionAuthentication):
@@ -236,3 +238,36 @@ class ExperienceView(views.APIView):
             return Response({'message': "Experience Deleted Successfully"}, status.HTTP_200_OK)
         except:
             return Response({'message': "Experience matching query does not exist."}, status.HTTP_404_NOT_FOUND)
+
+
+class MessageView(views.APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [CsrfExemptSessionAuthentication]
+
+    def get(self, request, id=None):
+        if not id == None:
+            try:
+                message = Message.objects.get(pk=int(id))
+                serializer = MessageSerializer(message)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except:
+                return Response({'message': "Message matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+        messages = Message.objects.all()
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = MessageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+    def delete(self, request, id):
+        try:
+            message = Message.objects.get(pk=int(id))
+            message.delete()
+            return Response({'message': "Message Deleted Successfully"}, status=status.HTTP_200_OK)
+        except:
+            return Response({'message': "Message matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)

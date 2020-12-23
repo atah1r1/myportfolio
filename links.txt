@@ -22,3 +22,6 @@ API
 
 /api/experiences/               [POST / GET]
 /api/experiences/<id>/          [PUT / DELETE]
+
+/api/messages/                  [POST / GET]
+/api/messages/<id>/             [DELETE / GET]
