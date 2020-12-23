@@ -2,6 +2,8 @@ from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
 from django.contrib.auth import logout as logout_user
+from django.core.mail import send_mail
+from django.conf import settings
 
 from rest_framework import views, generics, permissions, authentication
 from rest_framework.response import Response
@@ -261,9 +263,16 @@ class MessageView(views.APIView):
         serializer = MessageSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+
             ###################################################
             ##  sending the message to the gmail account...  ##
+            subject = 'Portfolio : Mail from {}'.format(serializer.data['name'])
+            message = '{}\n\nSender Email: {}'.format(serializer.data['message'], serializer.data['email'])
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [settings.EMAIL_HOST_USER, ]
+            send_mail(subject, message, email_from, recipient_list)
             ###################################################
+            
             return Response(serializer.data)
         return Response(serializer.errors)
     
