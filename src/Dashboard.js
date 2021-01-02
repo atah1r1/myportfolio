@@ -18,6 +18,10 @@ import axios from 'axios';
 
 const Dashboard = () => {
     const [connected, setConnected] = useState(true /*null*/);
+    const [profile, setProfile] = useState({});
+    const InputHandle = () => {
+      setProfile({value: ""}) ////// Here !!!!!!
+    }
     const logoutFunc = () => {
         axios({
             url: '/api/logout/',
@@ -37,9 +41,17 @@ const Dashboard = () => {
             response => setConnected(response.data.authenticate)
 )
     }, [])
+    useEffect(() => {
+        axios({
+            url: '/api/profile',
+            method: 'get',
+        }).then(
+            response => setProfile(response.data),
+        )
+    }, [])
     return (
         <>
-        { connected ? <main class="flex w-full h-screen">
+        { true ? <main class="flex w-full h-screen">
 <aside class="w-80 h-screen bg-gray shadow-md hidden sm:block">
   <div class="flex flex-col justify-between h-screen p-4 bg-gray-800">
       <div class="text-sm">
@@ -63,76 +75,24 @@ const Dashboard = () => {
       </div>
   </div>
 </aside>
-<section class="w-full">
-    <div class="bg-transparent min-h-screen pt-2 font-mono">
-        <div class="container mx-auto">
-            <div class="inputs w-full max-w-2xl p-6 mx-auto">
-                <h2 class="text-2xl text-gray-900">Account Setting</h2>
-                <form class="mt-6 pt-4">
-                        <div class="personal w-full border-t border-gray-400 pt-4">
-                            <h2 class="text-2xl text-gray-900">Personal info:</h2>
-                            <div class="flex items-center justify-between mt-4">
-                                <div class='w-full md:w-1/2 px-3 mb-6'>
-                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >first name</label>
-                                    <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                                </div>
-                                <div class='w-full md:w-1/2 px-3 mb-6'>
-                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >last name</label>
-                                    <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                                </div>
-                            </div>
-                            <div class='w-full md:w-full px-3 mb-6'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>user name</label>
-                                <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                            </div>
-                            <div class='w-full md:w-full px-3 mb-6'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Mini about</label>
-                                <textarea class='bg-gray-100 rounded-md border text-gray-700 leading-normal resize-none w-full h-15 py-2 px-3 shadow-inner border border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'  required></textarea>
-                            </div>
-                            <div class='w-full md:w-full px-3 mb-6'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Bio</label>
-                                <textarea class='bg-gray-100 rounded-md border text-gray-700 leading-normal resize-none w-full h-32 py-2 px-3 shadow-inner border border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'  required></textarea>
-                            </div>
-                            <div class='w-full md:w-full px-3 mb-6'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Address</label>
-                                <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                            </div>
-                            <div class='w-full md:w-full px-3 mb-6'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Phone</label>
-                                <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                            </div>
-                            <div class='w-full md:w-full px-3 mb-6'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Email</label>
-                                <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                            </div>
-                            <div class="flex items-center justify-between mt-4">
-                                <div class='w-full md:w-1/4 px-3 mb-6'>
-                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Github</label>
-                                    <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                                </div>
-                                <div class='w-full md:w-1/4 px-3 mb-6'>
-                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Linkedin</label>
-                                    <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                                </div>
-                                <div class='w-full md:w-1/4 px-3 mb-6'>
-                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Instagram</label>
-                                    <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                                </div>
-                                <div class='w-full md:w-1/4 px-3 mb-6'>
-                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Twitter</label>
-                                    <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required></input>
-                                </div>
-                            </div>
-                            <div class="flex p-3 text-white bg-red-500 rounded cursor-pointer text-center text-sm">
-                                <button class="rounded inline-flex items-cente" type="submit">save changes</button>
-                            </div>
-                        </div>
-                </form>
-            </div>
-        </div>
+<div class="leading-loose flex-auto">
+  <form class="max-w-xl m-4 p-10 bg-white rounded shadow-xl">
+    <p class="text-gray-800 font-medium">Profile information</p>
+    {
+      Object.keys(profile).map(function(key) {
+        return (
+          <div class="">
+          <label class="block text-sm text-black m-2">{key}</label>
+            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="text" required="" onChange={InputHandle}></input>
+          </div>
+        )
+      })
+    }
+    <div class="mt-4">
+      <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" type="submit">Submit</button>
     </div>
-
-  </section>
+  </form>
+</div>
 </main> : <div>You are not allowed to see this page!</div>
         }
 </>
