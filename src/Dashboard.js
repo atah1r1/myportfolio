@@ -15,37 +15,49 @@ import axios from 'axios';
     "twitter": null,
     "instagram": null
 */
+var form_data = new FormData();
 
 const Dashboard = () => {
     const [connected, setConnected] = useState(true /*null*/);
     const [profile, setProfile] = useState({});
     const logoutFunc = () => {
+      axios({
+        url: '/api/logout/',
+        method: "post",
+      }).then(
+        response => {
+          if (response.status === 200){
+            window.location.href = '/login';
+          }
+        })
+      }
+      useEffect(() => {
         axios({
-            url: '/api/logout/',
-            method: "post",
-          }).then(
-            response => {
-                if (response.status === 200){
-                    window.location.href = '/login';
-                }
-            })
-    }
-    useEffect(() => {
-        axios({
-            url: '/api/login/',
-            method: "get",
-          }).then(
-            response => setConnected(response.data.authenticate)
-)
-    }, [])
-    useEffect(() => {
-        axios({
+          url: '/api/login/',
+          method: "get",
+        }).then(
+          response => setConnected(response.data.authenticate)
+          )
+        }, [])
+        useEffect(() => {
+          axios({
             url: '/api/profile',
             method: 'get',
-        }).then(
+          }).then(
             response => setProfile(response.data),
-        )
-    }, [])
+            )
+          }, [])
+      const HandleSubmit = (e) => {
+          e.preventDefault();
+          for ( var key in profile ) {
+            form_data.append(key, profile[key]);
+            }
+          axios({
+            url: '/api/profile/',
+            method: 'put',
+            data: form_data
+          })
+        }
     return (
         <>
         { true ? <main className="flex w-full h-screen">
@@ -81,13 +93,13 @@ const Dashboard = () => {
         return (
           <div className="" key={key}>
           <label className="block text-sm text-black m-2">{key}</label>
-            <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="text" onChange={(e) => {setProfile({ ...profile,[key]: e.target.value}); console.log(profile)}} value={profile[key]}></input>
+            <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="text" onChange={(e) => {setProfile({ ...profile,[key]: e.target.value})}} value={profile[key]}></input>
           </div>
         )
       })
     }
     <div className="mt-4">
-      <button className="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" type="submit">Submit</button>
+      <button className="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" onClick={HandleSubmit}>Submit</button>
     </div>
   </form>
 </div>
