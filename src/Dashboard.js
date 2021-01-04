@@ -96,7 +96,7 @@ const Dashboard = () => {
   </div>
 </aside>
 <div className="leading-loose flex-auto">
-  <form className="max-w-xl m-4 p-10 bg-white rounded shadow-xl" encType="multipart/form-data">
+  <form className="max-w-xl m-4 p-10 bg-white rounded shadow-xl" encType="multipart/form-data" onSubmit={HandleSubmit}>
     <p className="text-gray-800 font-medium">Profile information</p>
     {
       Object.keys(profile).map(function(key) {
@@ -105,7 +105,6 @@ const Dashboard = () => {
           <div className="" key={key}>
           <label className="block text-sm text-black m-2">{key}</label>
             <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="file" onChange={(e) => {setProfile({ ...profile,[key]: e.target.files[0]}); setAvatarState(true)}}></input>
-            <img src={profile[key]}></img>
           </div>
         )
         return (
@@ -116,8 +115,9 @@ const Dashboard = () => {
         )
       })
     }
+    <img src={profile.avatar}></img>
     <div className="mt-4">
-      <button className="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" onClick={HandleSubmit}>Submit</button>
+      <button className="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded">Submit</button>
     </div>
   </form>
 </div>
