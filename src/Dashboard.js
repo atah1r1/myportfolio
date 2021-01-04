@@ -56,7 +56,12 @@ const Dashboard = () => {
             url: '/api/profile/',
             method: 'put',
             data: form_data
+          }).then(response => { 
+            console.log(response)
           })
+          .catch(error => {
+              console.log(error.response)
+          });
         }
     return (
         <>
@@ -85,15 +90,22 @@ const Dashboard = () => {
   </div>
 </aside>
 <div className="leading-loose flex-auto">
-  <form className="max-w-xl m-4 p-10 bg-white rounded shadow-xl">
+  <form className="max-w-xl m-4 p-10 bg-white rounded shadow-xl" encType="multipart/form-data">
     <p className="text-gray-800 font-medium">Profile information</p>
     {
       Object.keys(profile).map(function(key) {
         if (key === 'id') return;
+        if (key === 'avatar') return (
+          <div className="" key={key}>
+          <label className="block text-sm text-black m-2">{key}</label>
+            <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="file" onChange={(e) => {setProfile({ ...profile,[key]: e.target.files[0]})}}></input>
+            <img src={profile[key]}></img>
+          </div>
+        )
         return (
           <div className="" key={key}>
           <label className="block text-sm text-black m-2">{key}</label>
-            <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="text" onChange={(e) => {setProfile({ ...profile,[key]: e.target.value})}} value={profile[key]}></input>
+            <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" onChange={(e) => {setProfile({ ...profile,[key]: e.target.value})}} value={profile[key]}></input>
           </div>
         )
       })
