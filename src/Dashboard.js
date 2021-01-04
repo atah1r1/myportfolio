@@ -20,6 +20,7 @@ var form_data = new FormData();
 const Dashboard = () => {
     const [connected, setConnected] = useState(true /*null*/);
     const [profile, setProfile] = useState({});
+    const [avatarstate, setAvatarState] = useState(false);
     const logoutFunc = () => {
       axios({
         url: '/api/logout/',
@@ -50,7 +51,12 @@ const Dashboard = () => {
       const HandleSubmit = (e) => {
           e.preventDefault();
           for ( var key in profile ) {
-            form_data.append(key, profile[key]);
+            if (key === 'avatar' && !avatarstate){
+              continue;
+            }
+            else {
+              form_data.append(key, profile[key])
+            }
             }
           axios({
             url: '/api/profile/',
@@ -98,7 +104,7 @@ const Dashboard = () => {
         if (key === 'avatar') return (
           <div className="" key={key}>
           <label className="block text-sm text-black m-2">{key}</label>
-            <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="file" onChange={(e) => {setProfile({ ...profile,[key]: e.target.files[0]})}}></input>
+            <input className="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="file" onChange={(e) => {setProfile({ ...profile,[key]: e.target.files[0]}); setAvatarState(true)}}></input>
             <img src={profile[key]}></img>
           </div>
         )
